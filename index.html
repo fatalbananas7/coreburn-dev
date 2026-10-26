@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="robots" content="noindex, nofollow">
+  <!-- Mobile viewport: fill the screen, no pinch/double-tap zoom while playing -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#14191d">
+  <meta name="description" content="COREBURN - an endless arena brawler. Play as Sarrow, a scavenger with a burning energy core, and carve through the machine cult called the Grindchoir.">
+  <title>[DEV] COREBURN - Endless Arena Brawler</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22%3E%3Cpolygon points=%2250,4 90,27 90,73 50,96 10,73 10,27%22 fill=%22%231d2024%22 stroke=%22%23e0702a%22 stroke-width=%226%22/%3E%3Ccircle cx=%2250%22 cy=%2250%22 r=%2218%22 fill=%22%233ff6e0%22/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="style.css?v=1.34.0-dev.a99db7b">
+
+  <!-- The "import map" tells the browser where to find Three.js (a copy lives in vendor/
+       so the game also works offline inside the Android app).
+       That lets our JS files simply write: import * as THREE from 'three';
+       No install or build step needed. -->
+  <script>
+  // Boot failsafe: if the game modules fail to start, show a reload banner. Never touches storage.
+  (function(){var shown=false;function show(msg){if(shown||window.__cbReady)return;shown=true;var b=document.createElement('div');b.style.cssText='position:fixed;left:0;right:0;top:0;z-index:2147483647;background:#b3261e;color:#fff;font:600 16px sans-serif;padding:12px;text-align:center;cursor:pointer';b.innerHTML='Game failed to load \u2014 tap to reload<div style="font:400 11px monospace;opacity:.85;margin-top:4px;word-break:break-all"></div>';b.lastChild.textContent=msg||'';b.onclick=function(){var u=location.pathname+'?r='+Date.now()+location.hash;location.replace(u);};(document.body||document.documentElement).appendChild(b);}
+  window.addEventListener('error',function(e){var t=e.target;if(t&&t.tagName==='SCRIPT'){show('Script failed: '+(t.src||''));}else if(!window.__cbReady){show((e.message||'error')+' @ '+(e.filename||'')+':'+(e.lineno||''));}},true);
+  window.addEventListener('unhandledrejection',function(e){if(!window.__cbReady)show('Rejection: '+(e.reason&&(e.reason.stack||e.reason.message)||e.reason));});
+  setTimeout(function(){show('Timed out waiting for game start (6s)');},6000);})();
+  </script>
+  <script>window.__CB_DEV_BUILD = '1.34.0-dev.a99db7b';</script>
+  <script src="js/dev-boot.js?v=1.34.0-dev.a99db7b"></script>
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "./vendor/three.module.js"
+      }
+    }
+  </script>
+</head>
+<body>
+  <!-- The 3D canvas gets put inside this div by main.js -->
+  <div id="game"></div>
+
+  <!-- SLOW-MO teal vignette, and the black fade used when the arena changes -->
+  <div id="slowmo-tint"></div>
+  <div id="fade"></div>
+
+  <!-- HUD = Heads-Up Display: health, score, wave, cooldowns -->
+  <div id="hud">
+    <div id="hud-top-left">
+      <!-- Sarrow's emblem: a glowing core inside a hexagon -->
+      <div class="emblem">
+        <svg viewBox="0 0 100 100"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27" fill="#1d2024" stroke="#e0702a" stroke-width="7"/><circle class="emblem-core" cx="50" cy="50" r="17" fill="#3ff6e0"/></svg>
+      </div>
+      <div>
+        <div class="name">SARROW</div>
+        <div class="bar"><div id="health-fill"></div><span id="health-text">100</span></div>
+        <div class="regen">Core recharge active</div>
+        <div id="weapon-line"></div>
+        <div id="tw-chip" class="hidden"></div>
+      </div>
+    </div>
+
+    <div id="hud-top-right">
+      <div>SCORE <span id="score">0</span></div>
+      <div class="sub">WAVE <span id="wave">1</span> &nbsp; KILLS <span id="kills">0</span></div>
+      <div id="run-timer" aria-label="Run time">00:00</div>
+      <!-- COMBO counter (filled in by hud.js, see combo.js) -->
+      <div id="combo"><div class="row"><span id="combo-count">0</span><span id="combo-mult">x1</span></div><div class="cbar"><div id="combo-fill"></div></div><div class="clabel">COMBO</div></div>
+      <div id="combo-callout"></div>
+      <div id="mutator-tag" class="hidden"></div>
+      <div id="shrine-tag" class="hidden"></div>
+      <div id="mode-tag" class="hidden"></div>
+    </div>
+
+    <!-- Active power-ups with timers (filled in by hud.js) -->
+    <div id="powerups"></div>
+
+    <!-- Boss health bar (hidden until a boss shows up) -->
+    <div id="boss-bar" class="hidden">
+      <div id="boss-name">BOSS</div>
+      <div class="boss-track"><div id="boss-fill"></div></div>
+    </div>
+
+    <!-- Ability cooldowns (keyboard players) -->
+    <div id="abilities" class="kb-only">
+      <div class="ability ready" id="ab-dash"><span class="cd-text"></span><span class="key">K</span><span class="aicon">➹</span><span class="pips"></span><span class="label">BLINK</span></div>
+      <div class="ability ready" id="ab-spin"><span class="cd-text"></span><span class="key">L</span><span class="aicon">⟲</span><span class="label">OVERDRIVE</span></div>
+    </div>
+
+    <div id="controls-hint" class="kb-only">
+      <b>WASD / Arrows</b> move &nbsp;·&nbsp; <b>J / Left-click</b> attack (hold) &nbsp;·&nbsp;
+      <b>K / Space</b> mobility &nbsp;·&nbsp; <b>L</b> ultimate
+    </div>
+
+    <div id="banner"><div id="banner-text"></div><div id="banner-sub"></div></div>
+    <div id="toast"></div>
+    <div id="milestone"></div>
+    <div id="closecall"><b>CLOSE CALL</b><span></span></div>
+  </div>
+
+  <!-- PAUSE (in a run; Esc / P on keyboard) -->
+  <button id="pause-btn" class="hidden" aria-label="Pause" title="Pause (Esc / P)"><svg viewBox="0 0 24 24"><rect x="6" y="5" width="4" height="14" rx="1" fill="currentColor"/><rect x="14" y="5" width="4" height="14" rx="1" fill="currentColor"/></svg></button>
+  <div id="pause-overlay" class="hidden">
+    <div class="pause-panel">
+      <h2>PAUSED</h2>
+      <div id="pause-sub" class="pause-sub"></div>
+      <button id="pause-resume" class="big-btn">&#9654; RESUME</button>
+      <button id="pause-save" class="big-btn hidden">&#128190; SAVE &amp; QUIT <small>continue later from this wave</small></button>
+      <button id="pause-restart" class="big-btn">&#8635; RESTART <small>change hero</small></button>
+      <button id="pause-menu" class="big-btn">&#9776; MENU</button>
+      <button class="fs-btn fs-pause hidden" type="button"><span class="fs-ico"></span><span class="fs-lbl">FULLSCREEN</span></button>
+    </div>
+  </div>
+  <!-- Sound on/off (remembered between visits). Keyboard shortcut: M -->
+  <button id="mute-btn" aria-label="Toggle sound" title="Sound on/off (M)">
+    <svg class="icon-on" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 8.5a5 5 0 0 1 0 7M18.5 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></svg>
+    <svg class="icon-off" viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z" fill="currentColor"/><path d="M16 9l6 6M22 9l-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+
+  <!-- Red flash when Sarrow gets hit -->
+  <div id="damage-flash"></div>
+
+  <!-- Touch controls (only shown on phones/tablets, see touch.js) -->
+  <div id="touch-controls" class="touch-only">
+    <div id="joystick-zone">
+      <div id="joystick-base"><div id="joystick-knob"></div></div>
+    </div>
+    <div id="touch-buttons">
+      <button id="btn-slash" class="tbtn">SLASH</button>
+      <button id="btn-dash" class="tbtn ready"><span class="cd-text"></span><span class="pips"></span><span class="lbl">BLINK</span></button>
+      <button id="btn-spin" class="tbtn ready"><span class="cd-text"></span><span class="lbl">OVER<br>DRIVE</span></button>
+    </div>
+  </div>
+
+  <!-- Upgrade picker: shown after every boss (filled in by hud.js) -->
+  <div id="upgrade-overlay" class="hidden">
+    <button id="sel-back-btn" type="button" aria-label="Back to main menu">&#8592; BACK <kbd>ESC</kbd></button>
+    <div id="upgrade-box">
+      <div id="upgrade-title">CHOOSE AN UPGRADE</div>
+      <div id="upgrade-sub"></div>
+      <div id="tw-vote" class="hidden"></div>
+      <div id="upgrade-cards"></div>
+      <div id="sc-wrap" class="sel-only"><div id="sc-stage"></div><div id="sc-side"><div id="sc-info"></div><button id="sc-go" type="button" class="big-btn">SELECT &#9654;</button></div></div>
+      <div id="upgrade-hint" class="kb-only">Press 1, 2 or 3 · or click a card</div>
+      <button id="sel-cos-btn" class="link-btn sel-only">&#127890; Cosmetics &amp; arena skins</button>
+    </div>
+  </div>
+
+  <!-- Online co-op: host / join, then the lobby with the room code (see coop.js) -->
+  <div id="coop-panel" class="hidden">
+    <div class="cp-box">
+      <div class="cp-title">CO-OP</div>
+      <div id="cp-menu">
+        <button id="cp-host" class="big-btn">HOST A ROOM</button>
+        <div class="cp-or">or join a friend</div>
+        <div class="cp-join">
+          <input id="cp-code" maxlength="4" placeholder="CODE" autocomplete="off" autocapitalize="characters" spellcheck="false" inputmode="text">
+          <button id="cp-join" class="big-btn">JOIN</button>
+        </div>
+        <button id="cp-back" class="link-btn">Back</button>
+      </div>
+      <div id="cp-lobby" class="hidden">
+        <div class="cp-codelabel">ROOM CODE</div>
+        <div id="cp-roomcode">----</div>
+        <div class="cp-tip">Friends tap CO-OP, then JOIN and enter this code</div>
+        <div id="cp-roster"></div>
+        <div class="cp-codelabel">RULES (host picks)</div>
+        <div id="cp-rules" class="rules-row"><button data-z="0">CLASSIC</button><button data-z="1">COREBURNZ</button></div>
+        <div class="cp-codelabel">YOUR HERO</div>
+        <div id="cp-heroes"></div>
+        <button id="cp-cos" class="link-btn cos-open">COSMETICS &amp; SKINS</button>
+        <button id="cp-start" class="big-btn">START</button>
+        <div id="cp-wait">Waiting for the host to start…</div>
+        <button id="cp-leave" class="link-btn">Leave room</button>
+      </div>
+      <div id="cp-status"></div>
+    </div>
+  </div>
+
+  <!-- Leaderboards (see leaderboard.js / ranks-ui.js) -->
+  <div id="ranks-panel" class="hidden">
+    <div class="sp-box">
+      <div class="sp-head"><div class="cp-title">RANKS</div><div id="rk-source"></div></div>
+      <div id="rk-tabs" class="sp-tabs-row"></div>
+      <div id="rk-sub" class="sp-tabs-row"></div>
+      <div id="rk-list"></div>
+      <div class="rk-name"><span>Your name:</span><input id="rk-name" maxlength="16" autocomplete="off" spellcheck="false" placeholder="your name"><button id="rk-name-save" class="share-btn">SAVE</button><small id="rk-name-msg"></small></div>
+      <button id="rk-close" class="big-btn">DONE</button>
+    </div>
+  </div>
+
+  <!-- Unlock shop: skins, talon colours, starting perks (see meta.js / shop-ui.js) -->
+  <!-- Cosmetics: level-up unlocks per hero + arena skins (progress.js / cosmetics-ui.js) -->
+  <div id="cos-panel" class="hidden">
+    <button id="cos-back" class="panel-back" type="button" aria-label="Back">&#8592; BACK</button>
+    <div class="sp-box">
+      <div class="sp-head"><div class="cp-title">COSMETICS</div><div id="cos-level"></div></div>
+      <div id="cos-tabs" class="sp-tabs-row"></div>
+      <div id="cos-items"></div>
+      <div class="cp-codelabel">ARENA SKINS</div>
+      <div id="cos-skins"></div>
+      <div id="cos-skinmode" class="sp-tabs-row"></div>
+      <div class="cp-codelabel">HERO SKIN VARIANTS <small>(hero level, CoreBurnZ)</small></div>
+      <div id="cos-variants" class="cos-row"></div>
+      <div class="cp-codelabel">TITLE</div>
+      <div id="cos-titles" class="cos-row"></div>
+      <div class="cp-codelabel">NAME PLATE</div>
+      <div id="cos-plates" class="cos-row"></div>
+      <button id="cos-close" class="big-btn">DONE</button>
+    </div>
+  </div>
+
+  <div id="shop-panel" class="hidden">
+    <button id="sp-back" class="panel-back" type="button" aria-label="Back">&#8592; BACK</button>
+    <div class="sp-box">
+      <div class="sp-head"><div class="cp-title">SHOP</div><div id="sp-scrap"></div></div>
+      <div id="sp-tabs"></div>
+      <div id="sp-items"></div>
+      <div id="sp-note"></div>
+      <div class="sp-actions"><button id="sp-play" class="big-btn hidden">&#9654; PLAY AGAIN</button><button id="sp-close" class="big-btn">DONE</button></div>
+    </div>
+  </div>
+
+  <!-- Streamer Mode: Twitch chat votes on upgrade cards (read-only, anonymous; see twitch.js) -->
+  <div id="tw-panel" class="hidden">
+    <div class="cp-box">
+      <div class="cp-title">STREAMER MODE</div>
+      <p class="tw-help">Your Twitch chat votes on upgrade cards: viewers type <b>!1</b>, <b>!2</b> or <b>!3</b>. After 15 seconds the top card is picked, or pick one yourself any time. The game reads chat anonymously: no login, nothing is posted, and chat messages are never shown on screen.</p>
+      <div class="cp-codelabel">CHANNEL</div>
+      <div class="cp-join"><input id="tw-channel" maxlength="25" autocomplete="off" spellcheck="false" placeholder="channel"></div>
+      <button id="tw-toggle" class="big-btn">TURN ON</button>
+      <div id="tw-status"></div>
+      <button id="tw-close" class="link-btn">Back</button>
+    </div>
+  </div>
+
+  <!-- Menu atmosphere (title + hero select only): teal light, lava glow, vignette. Pure CSS. -->
+  <div id="menu-atmo" aria-hidden="true"></div>
+
+  <!-- Title screen + game over screen -->
+  <div id="overlay">
+    <div class="panel" id="title-panel">
+      <div id="m-profile">
+        <div class="mp-hex" aria-hidden="true"><svg viewBox="0 0 100 100"><polygon points="50,4 90,27 90,73 50,96 10,73 10,27" fill="#11161a" stroke="currentColor" stroke-width="6"/><circle cx="50" cy="50" r="16" fill="currentColor"/></svg></div>
+        <div class="mp-main"><b id="mp-name">PLAYER</b><div id="lvl-bar"><span id="lvl-text">LEVEL 1</span><span id="lvl-title"></span><i><b id="lvl-fill"></b></i></div></div>
+        <div class="mp-scrap"><span>&#11042;</span><b id="mp-scrap">0</b><small>SCRAP</small></div>
+      </div>
+      <div class="m-brand">
+        <h1>COREBURN</h1>
+        <h2>Endless Arena Brawler</h2>
+      </div>
+      <div id="rules-row" class="rules-row m-modes" role="radiogroup" aria-label="Game mode">
+        <button data-z="0"><b>CLASSIC</b><small>The original endless run</small></button>
+        <button data-z="1"><b>COREBURN<em>Z</em></b><small>Remix: relics, 12 bosses, Kagero</small></button>
+      </div>
+      <div id="rules-desc" class="hidden"></div>
+      <button id="start-btn" class="big-btn m-play">&#9654;&nbsp; PLAY</button>
+      <div class="mode-row m-sub">
+        <button id="coop-btn" class="mode-btn coop">CO-OP<small>2-4 online</small></button>
+        <button id="daily-btn" class="mode-btn">DAILY<small>challenge</small></button>
+        <button id="rush-btn" class="mode-btn">BOSS RUSH<small>weekly</small></button>
+      </div>
+      <div class="best" id="best-text"></div>
+      <div class="m-icons">
+        <button id="shop-btn" class="m-icon shop" title="Shop"><span>&#9670;</span>SHOP<small id="shop-scrap">0 scrap</small></button>
+        <button id="cos-btn" class="m-icon cos" title="Cosmetics"><span>&#10022;</span>LOOKS<small id="cos-sub">level 1</small></button>
+        <button id="ranks-btn" class="m-icon" title="Leaderboards"><span>&#9819;</span>RANKS<small>boards</small></button>
+        <button id="tw-btn" class="m-icon" title="Streamer mode"><span>&#9673;</span>STREAM<small>Twitch</small></button>
+        <button id="menu-more-btn" class="m-icon" title="Settings &amp; help" aria-expanded="false"><span>&#8801;</span>MORE<small>help</small></button>
+      </div>
+      <div id="menu-more" class="m-more hidden">
+        <div class="m-more-h">HOW TO PLAY</div>
+        <ul class="kb-only">
+          <li><b>WASD</b> move · <b>J / click</b> attack · <b>K / Space</b> mobility · <b>L</b> ultimate · <b>Esc</b> pause</li>
+        </ul>
+        <ul class="touch-only">
+          <li>Left thumb moves · big button attacks · small buttons are mobility and ultimate</li>
+        </ul>
+        <p class="m-lore">The Grindchoir melts down anything with a pulse to feed its machine hymn. The song ends here.</p>
+        <div class="m-more-links">
+          <a href="https://sublebow.github.io/coreburn/privacy.html" target="_blank" rel="noopener">Privacy policy</a>
+          <button class="fs-btn fs-set link-btn hidden" type="button"><span class="fs-ico"></span><span class="fs-lbl">FULLSCREEN</span></button>
+          <button id="privacy-options-btn" class="link-btn hidden">Ad privacy choices</button>
+        </div>
+      </div>
+      <button class="fs-btn fs-menu hidden" type="button" title="Fullscreen"><span class="fs-ico"></span><span class="fs-lbl">FULLSCREEN</span></button>
+      <span id="version-text" class="m-version"></span>
+    </div>
+
+    <div class="panel hidden" id="gameover-panel">
+      <h1>CORE OFFLINE</h1>
+      <div id="gameover-mode" class="hidden"></div>
+      <div id="gameover-score"></div>
+      <p id="gameover-stats"></p>
+      <div id="gameover-scrap" class="hidden"></div>
+      <div id="gameover-xp" class="hidden"></div>
+      <div id="lb-result" class="hidden"></div>
+      <div id="lb-name-row" class="hidden"><span>Name for leaderboards:</span><input id="lb-name" maxlength="16" autocomplete="off" spellcheck="false" placeholder="your name"><button id="lb-name-save" class="share-btn">SAVE</button><small id="lb-name-msg"></small></div>
+      <div class="share-row">
+        <button id="share-btn" class="share-btn">&#128228; SHARE SCORE</button>
+        <button id="copy-btn" class="share-btn secondary">COPY</button>
+      </div>
+      <button id="double-btn" class="big-btn double hidden">&#9654; DOUBLE SCRAP <small>(watch an ad)</small></button>
+      <button id="revive-btn" class="big-btn revive hidden">&#9654; REVIVE <small>(watch an ad)</small></button>
+      <div id="go-actions">
+        <button id="restart-btn" class="big-btn">&#9654; PLAY AGAIN<small id="restart-sub">pick your hero, then go</small></button>
+        <div class="go-row">
+          <button id="go-shop-btn" class="go-btn shop hidden">&#128722; SHOP</button>
+          <button id="go-menu-btn" class="go-btn">&#9776; MENU</button>
+        </div>
+        <div class="small" id="restart-hint"><span class="kb-only">Enter or R: play again</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Our game code. type="module" lets files import each other. -->
+  <script type="module" src="js/main.js?v=1.34.0-dev.a99db7b"></script>
+</body>
+</html>
