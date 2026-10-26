@@ -24,7 +24,7 @@
   window.__CB_DEV = { sandbox: true, resetSandbox: function () { keys().forEach(function (k) { ss.removeItem(P + k); }); ss.removeItem(P + '__seeded'); location.reload(); } };
   // visible DEV BUILD badge (bottom-left, out of the HUD's way, tap-through)
   var badge = function () { var d = document.createElement('div'); d.id = 'cbdev-buildtag'; d.textContent = 'DEV BUILD ' + (window.__CB_DEV_BUILD || '');
-    d.style.cssText = 'position:fixed;left:4px;bottom:4px;z-index:2147483646;pointer-events:none;background:#ff2d6f;color:#fff;font:700 10px/1 monospace;padding:3px 5px;border-radius:3px;opacity:.85';
+    d.style.cssText = 'position:fixed;left:58px;bottom:3px;z-index:2147483646;pointer-events:none;background:#ff2d6f;color:#fff;font:700 10px/1 monospace;padding:3px 5px;border-radius:3px;opacity:.85';
     document.body.appendChild(d); };
   if (document.body) badge(); else document.addEventListener('DOMContentLoaded', badge);
 })();
