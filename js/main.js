@@ -4,53 +4,53 @@
 //   2. creates the arena, Sarrow, the waves, power-ups, the HUD and the controls
 //   3. runs the game loop ~60 times a second: update everything, then draw
 //   4. handles SLOW-MO (everything but Sarrow runs slower) and the fade between arenas
-import('./screenmode.js?v=1.34.0-dev.9175cf6-volkar-test').catch((e) => console.warn('screenmode optional module failed', e)); // optional, never blocks boot
-import { Allies } from './allies.js?v=1.34.0-dev.9175cf6-volkar-test';
+import('./screenmode.js?v=1.34.0-dev.22596d5-volkar-test2').catch((e) => console.warn('screenmode optional module failed', e)); // optional, never blocks boot
+import { Allies } from './allies.js?v=1.34.0-dev.22596d5-volkar-test2';
 import * as THREE from 'three';
-import { Input } from './input.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { isTouchDevice, setupTouchControls } from './touch.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { createArena, arenaForWave } from './arena.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Player } from './player.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { WaveManager, isBossWave } from './waves.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Projectiles } from './projectiles.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Effects } from './effects.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Hud } from './hud.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { PowerUps } from './powerups.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { sound } from './audio.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { ads } from './monetize.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { checkForUpdates } from './updater.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { GAME_VERSION } from './version.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { shareScore, copyScore } from './share.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { IS_NATIVE } from './native.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Combo } from './combo.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { CHARACTERS, CHARACTER_ORDER, heroOrder, displayName } from './characters.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { isPickWave } from './upgrades.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Coop } from './coop.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { meta, scrapForRun, RARE_DROPS, SHOP } from './meta.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { MUTATORS, isMutatorWave, rollMutator } from './mutators.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { GOLD_TIME } from './golden.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { ShopUI } from './shop-ui.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Twitch } from './twitch.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { checkAchievements, rewardText } from './achievements.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { isLocked, lockHint, lockBars, migrateUnlocks, migrateAxiom, onZKill, onWaveReached, onBossDefeated } from './unlocks.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { rngFor, dailyKey, weekKey, rushOrder, RUSH_BOSSES, rushTierBefore, rushScore, rushLabel, formatTime, dailyStartCard } from './modes.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { BOSS_ROTATION } from './bosses.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Leaderboard } from './leaderboard.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { UPGRADES } from './upgrades.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { RanksUI } from './ranks-ui.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { RULES, setRules, Z_TUNING } from './rules.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { rotation } from './bosses.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { progress, xpForRun, ARENA_SKINS, skinFor, variantById, progressHooks } from './progress.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { Input } from './input.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { isTouchDevice, setupTouchControls } from './touch.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { createArena, arenaForWave } from './arena.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Player } from './player.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { WaveManager, isBossWave } from './waves.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Projectiles } from './projectiles.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Effects } from './effects.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Hud } from './hud.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { PowerUps } from './powerups.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { sound } from './audio.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { ads } from './monetize.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { checkForUpdates } from './updater.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { GAME_VERSION } from './version.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { shareScore, copyScore } from './share.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { IS_NATIVE } from './native.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Combo } from './combo.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { CHARACTERS, CHARACTER_ORDER, heroOrder, displayName } from './characters.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { isPickWave } from './upgrades.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Coop } from './coop.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { meta, scrapForRun, RARE_DROPS, SHOP } from './meta.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { MUTATORS, isMutatorWave, rollMutator } from './mutators.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { GOLD_TIME } from './golden.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { ShopUI } from './shop-ui.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Twitch } from './twitch.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { checkAchievements, rewardText } from './achievements.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { isLocked, lockHint, lockBars, migrateUnlocks, migrateAxiom, onZKill, onWaveReached, onBossDefeated } from './unlocks.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { rngFor, dailyKey, weekKey, rushOrder, RUSH_BOSSES, rushTierBefore, rushScore, rushLabel, formatTime, dailyStartCard } from './modes.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { BOSS_ROTATION } from './bosses.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Leaderboard } from './leaderboard.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { UPGRADES } from './upgrades.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { RanksUI } from './ranks-ui.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { RULES, setRules, Z_TUNING } from './rules.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { rotation } from './bosses.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { progress, xpForRun, ARENA_SKINS, skinFor, variantById, progressHooks } from './progress.js?v=1.34.0-dev.22596d5-volkar-test2';
 // Phase 3B gear: scrap-bought cosmetics are owned in the scrap save, earned ones read the lifetime stats
 progressHooks.shopOwns = (id) => meta.owns(id); progressHooks.stats = () => meta.data.stats;
-import { Wardrobe } from './cosmetics.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { HeroPreview } from './hero-preview.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { CosmeticsUI } from './cosmetics-ui.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Shrine } from './shrine.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { EventDirector } from './events.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { getMastery } from './mastery.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { readSave, writeSave, deleteSave } from './saves.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Showcase } from './showcase.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { Wardrobe } from './cosmetics.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { HeroPreview } from './hero-preview.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { CosmeticsUI } from './cosmetics-ui.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Shrine } from './shrine.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { EventDirector } from './events.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { getMastery } from './mastery.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { readSave, writeSave, deleteSave } from './saves.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Showcase } from './showcase.js?v=1.34.0-dev.22596d5-volkar-test2';
 
 const IS_TOUCH = isTouchDevice();
 if (IS_TOUCH) document.body.classList.add('touch'); // shows the touch controls (see style.css)
@@ -1176,15 +1176,15 @@ frame();
 // Android app. It only loads when you run the game on your own computer (http://localhost...).
 const LOCAL_DEV = !IS_NATIVE && ['localhost', '127.0.0.1'].includes(location.hostname);
 if (LOCAL_DEV) {
-  import('./dev.local.js?v=1.34.0-dev.9175cf6-volkar-test')
+  import('./dev.local.js?v=1.34.0-dev.22596d5-volkar-test2')
     .then((m) => m.install({ renderer, scene, showcase, player, enemies, world, progress, allies, arena, powerups, projectiles, effects, hud, sound, ads, startGame, snapCamera: () => updateCamera(0, true), getScore: () => score, combo, meta, twitch, input, getState: () => state, getLastRun: () => lastRun, getMode: () => mode, bursts, openPicker: () => { normalPick = true; openUpgradePicker(); } }))
     .catch(() => {}); // no dev file = no helpers, that's fine
 }
 // ---- DEVELOPER BUILD hooks (injected by scripts/publish-dev.mjs) ----
 const __devCtx = { renderer, scene, showcase, player, enemies, world, progress, allies, arena, powerups, projectiles, effects, hud, sound, ads, events, startGame, snapCamera: () => updateCamera(0, true), getScore: () => score, combo, meta, twitch, input, getState: () => state, getLastRun: () => lastRun, getMode: () => mode, setMode: (m) => { mode = m; }, getRun: () => run, getTransition: () => transition, bursts, openPicker: () => { normalPick = true; openUpgradePicker(); } };
 if (window.__CB_DEV && !IS_NATIVE) {
-  import('./dev-harness.js?v=1.34.0-dev.9175cf6-volkar-test').then((m) => m.install(__devCtx)).catch(() => {});
-  import('./dev-5c-inspector.js?v=1.34.0-dev.9175cf6-volkar-test').then((m) => m.install(__devCtx)).catch((e) => console.warn('dev inspector', e));
-  import('./dev-tools.js?v=1.34.0-dev.9175cf6-volkar-test').then((m) => m.install(__devCtx)).catch((e) => console.warn('dev tools', e));
+  import('./dev-harness.js?v=1.34.0-dev.22596d5-volkar-test2').then((m) => m.install(__devCtx)).catch(() => {});
+  import('./dev-5c-inspector.js?v=1.34.0-dev.22596d5-volkar-test2').then((m) => m.install(__devCtx)).catch((e) => console.warn('dev inspector', e));
+  import('./dev-tools.js?v=1.34.0-dev.22596d5-volkar-test2').then((m) => m.install(__devCtx)).catch((e) => console.warn('dev tools', e));
 }
 window.__cbReady = true; // boot failsafe in index.html checks this

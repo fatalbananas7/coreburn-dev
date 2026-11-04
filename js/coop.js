@@ -12,22 +12,22 @@
 // Rules: enemies get more numerous and tougher per player, bosses switch targets every few seconds,
 // a downed hero is revived by a teammate standing next to them for 3 seconds, and the run ends when
 // everyone is down. Score and combo are shared; upgrade picks and power-ups are per player.
-import { disposeModel } from './hero-models.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { applyAffixVisuals } from './affixes.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { cleanMastery } from './mastery.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { synergiesFor, showSynergyPopup } from './synergy.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { disposeModel } from './hero-models.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { applyAffixVisuals } from './affixes.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { cleanMastery } from './mastery.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { synergiesFor, showSynergyPopup } from './synergy.js?v=1.34.0-dev.22596d5-volkar-test2';
 import * as THREE from 'three';
-import { NetHost, NetClient, normalizeCode, MAX_PLAYERS } from './net.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Player } from './player.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { Enemy } from './enemy.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { bossForNumber } from './bosses.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { RULES, setRules } from './rules.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { makeGolden } from './golden.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { meta } from './meta.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { waveStats } from './waves.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { CHARACTERS, ALL_HEROES, DUPLICATE_TINTS, displayName } from './characters.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { GAME_VERSION } from './version.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { cleanLook } from './progress.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { NetHost, NetClient, normalizeCode, MAX_PLAYERS } from './net.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Player } from './player.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { Enemy } from './enemy.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { bossForNumber } from './bosses.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { RULES, setRules } from './rules.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { makeGolden } from './golden.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { meta } from './meta.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { waveStats } from './waves.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { CHARACTERS, ALL_HEROES, DUPLICATE_TINTS, displayName } from './characters.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { GAME_VERSION } from './version.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { cleanLook } from './progress.js?v=1.34.0-dev.22596d5-volkar-test2';
 
 const SNAP_RATE = 15;   // host -> friends, per second
 const INPUT_RATE = 20;  // friend -> host, per second

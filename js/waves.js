@@ -13,12 +13,12 @@
 //   every 5th wave is a BOSS round instead (7 bosses take turns, see bosses.js;
 //   each time round the rotation they get faster and nastier)
 import * as THREE from 'three';
-import { Enemy } from './enemy.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { bossForNumber } from './bosses.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { RULES, Z_TUNING } from './rules.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { tickBossPhase } from './boss-phases.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { rollAffixes, applyAffixStats, tickAffixes, tickAffixVisuals, affixDeath, tickAffixJobs } from './affixes.js?v=1.34.0-dev.9175cf6-volkar-test';
-import { makeGolden } from './golden.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { Enemy } from './enemy.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { bossForNumber } from './bosses.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { RULES, Z_TUNING } from './rules.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { tickBossPhase } from './boss-phases.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { rollAffixes, applyAffixStats, tickAffixes, tickAffixVisuals, affixDeath, tickAffixJobs } from './affixes.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { makeGolden } from './golden.js?v=1.34.0-dev.22596d5-volkar-test2';
 
 const SCREEN_CAP = 14;        // regular enemies alive at once (not counting mites/summons)
 const HARD_CAP = 24;          // (co-op: 30)          // absolute limit including splitter mites and boss summons
