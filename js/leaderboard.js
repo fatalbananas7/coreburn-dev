@@ -10,14 +10,14 @@
 //    could earn, waves need a minimum time, rush times need a minimum per boss, daily/weekly boards
 //    only accept today's / this week's runs, one submission per 15 s per player). Runs where a
 //    local test helper was used never submit online.
-import { LEADERBOARD_CONFIG as CFG } from './leaderboard-config.js?v=1.34.0-dev.a99db7b';
-import { checkName } from './names.js?v=1.34.0-dev.a99db7b';
-import { GAME_VERSION } from './version.js?v=1.34.0-dev.a99db7b';
+import { LEADERBOARD_CONFIG as CFG } from './leaderboard-config.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { checkName } from './names.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { GAME_VERSION } from './version.js?v=1.34.0-dev.9175cf6-volkar-test';
 
 const LOCAL_KEY = 'coreburn-boards';
 const ID_KEY = 'coreburn-player-id';
 const NAME_KEY = 'coreburn-name';
-const HEROES = ['sarrow', 'zaleks', 'iskra', 'orin', 'ninja', 'axiom']; // ninja = CoreBurnZ boards only
+const HEROES = ['sarrow', 'zaleks', 'iskra', 'orin', 'ninja', 'axiom']; // ninja = CoreBurnZ boards only (Phase 6 test: Volkar has no boards yet)
 
 export const online = !!(CFG.enabled && CFG.supabaseUrl && CFG.supabaseAnonKey);
 

@@ -4,13 +4,13 @@
 //   25 Rivetjaw, 30 Brand & Temper, 35 The Hymnworks, then round again (tougher) from wave 40.
 // Each entry: def (name/subtitle for the banner) + spawn() that returns the Boss object(s).
 import * as THREE from 'three';
-import { Boss, CLASSIC_BOSSES } from './boss.js?v=1.34.0-dev.a99db7b';
-import { CantorVell, VELL_DEF } from './boss-vell.js?v=1.34.0-dev.a99db7b';
-import { Gulletworm, WORM_DEF } from './boss-worm.js?v=1.34.0-dev.a99db7b';
-import { ForgeTwin, BRAND_DEF, TEMPER_DEF } from './boss-twins.js?v=1.34.0-dev.a99db7b';
-import { Hymnworks, HYMNWORKS_DEF } from './boss-hymnworks.js?v=1.34.0-dev.a99db7b';
-import { SisterKlaxon, KLAXON_DEF, BellowsAbbot, BELLOWS_DEF, SaintGravelmouth, GRAVEL_DEF, TitheWarden, TITHE_DEF, NailChorus, NAIL_DEF } from './boss-z.js?v=1.34.0-dev.a99db7b';
-import { RULES } from './rules.js?v=1.34.0-dev.a99db7b';
+import { Boss, CLASSIC_BOSSES } from './boss.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { CantorVell, VELL_DEF } from './boss-vell.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { Gulletworm, WORM_DEF } from './boss-worm.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { ForgeTwin, BRAND_DEF, TEMPER_DEF } from './boss-twins.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { Hymnworks, HYMNWORKS_DEF } from './boss-hymnworks.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { SisterKlaxon, KLAXON_DEF, BellowsAbbot, BELLOWS_DEF, SaintGravelmouth, GRAVEL_DEF, TitheWarden, TITHE_DEF, NailChorus, NAIL_DEF } from './boss-z.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { RULES } from './rules.js?v=1.34.0-dev.9175cf6-volkar-test';
 
 const [DEACON, CHOIRMOTHER, RIVETJAW] = CLASSIC_BOSSES;
 

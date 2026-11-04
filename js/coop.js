@@ -12,22 +12,22 @@
 // Rules: enemies get more numerous and tougher per player, bosses switch targets every few seconds,
 // a downed hero is revived by a teammate standing next to them for 3 seconds, and the run ends when
 // everyone is down. Score and combo are shared; upgrade picks and power-ups are per player.
-import { disposeModel } from './hero-models.js?v=1.34.0-dev.a99db7b';
-import { applyAffixVisuals } from './affixes.js?v=1.34.0-dev.a99db7b';
-import { cleanMastery } from './mastery.js?v=1.34.0-dev.a99db7b';
-import { synergiesFor, showSynergyPopup } from './synergy.js?v=1.34.0-dev.a99db7b';
+import { disposeModel } from './hero-models.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { applyAffixVisuals } from './affixes.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { cleanMastery } from './mastery.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { synergiesFor, showSynergyPopup } from './synergy.js?v=1.34.0-dev.9175cf6-volkar-test';
 import * as THREE from 'three';
-import { NetHost, NetClient, normalizeCode, MAX_PLAYERS } from './net.js?v=1.34.0-dev.a99db7b';
-import { Player } from './player.js?v=1.34.0-dev.a99db7b';
-import { Enemy } from './enemy.js?v=1.34.0-dev.a99db7b';
-import { bossForNumber } from './bosses.js?v=1.34.0-dev.a99db7b';
-import { RULES, setRules } from './rules.js?v=1.34.0-dev.a99db7b';
-import { makeGolden } from './golden.js?v=1.34.0-dev.a99db7b';
-import { meta } from './meta.js?v=1.34.0-dev.a99db7b';
-import { waveStats } from './waves.js?v=1.34.0-dev.a99db7b';
-import { CHARACTERS, ALL_HEROES, DUPLICATE_TINTS, displayName } from './characters.js?v=1.34.0-dev.a99db7b';
-import { GAME_VERSION } from './version.js?v=1.34.0-dev.a99db7b';
-import { cleanLook } from './progress.js?v=1.34.0-dev.a99db7b';
+import { NetHost, NetClient, normalizeCode, MAX_PLAYERS } from './net.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { Player } from './player.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { Enemy } from './enemy.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { bossForNumber } from './bosses.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { RULES, setRules } from './rules.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { makeGolden } from './golden.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { meta } from './meta.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { waveStats } from './waves.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { CHARACTERS, ALL_HEROES, DUPLICATE_TINTS, displayName } from './characters.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { GAME_VERSION } from './version.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { cleanLook } from './progress.js?v=1.34.0-dev.9175cf6-volkar-test';
 
 const SNAP_RATE = 15;   // host -> friends, per second
 const INPUT_RATE = 20;  // friend -> host, per second
@@ -106,7 +106,7 @@ export class Coop {
       b.style.setProperty('--c', '#' + c.color.toString(16).padStart(6, '0'));
       b.innerHTML = `<b>⬢</b><span>${c.name}</span><small>${c.title}</small>`;
       b.addEventListener('click', () => this.chooseHero(id));
-      if (c.secret || id === 'iskra' || id === 'ninja' || id === 'axiom') b.classList.add('secret-hero'); // locked heroes: shown once unlocked (unlocks.js)
+      if (c.secret || id === 'iskra' || id === 'ninja' || id === 'axiom' || id === 'thane') b.classList.add('secret-hero'); // locked heroes: shown once unlocked (unlocks.js)
       heroes.appendChild(b);
     }
   }

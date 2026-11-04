@@ -11,8 +11,8 @@
 //
 // Only game files (HTML/CSS/JS) can be updated this way. Changes to the Android side
 // (app name, icon, permissions, AdMob App ID, plugins) still need a Play Store update.
-import { GAME_VERSION } from './version.js?v=1.34.0-dev.a99db7b';
-import { getPlugin } from './native.js?v=1.34.0-dev.a99db7b';
+import { GAME_VERSION } from './version.js?v=1.34.0-dev.9175cf6-volkar-test';
+import { getPlugin } from './native.js?v=1.34.0-dev.9175cf6-volkar-test';
 
 const MANIFEST_URL = 'https://sublebow.github.io/coreburn/updates/latest.json';
 
