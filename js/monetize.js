@@ -9,8 +9,8 @@
 //     an ad to come back once per run with half health. You never have to.
 //
 // All IDs live in ads-config.js (currently Google's official TEST IDs).
-import { ADS_CONFIG } from './monetize-config.js?v=1.34.0-dev.22596d5-volkar-test2';
-import { getPlugin } from './native.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { ADS_CONFIG } from './monetize-config.js?v=1.34.0-dev.7658525-volkar-test3';
+import { getPlugin } from './native.js?v=1.34.0-dev.7658525-volkar-test3';
 
 const AdMob = ADS_CONFIG.enabled ? getPlugin('AdMob') : null;
 

@@ -2,11 +2,11 @@
 // (scripts/build-web.mjs skips dev-*.js) and only imported by main.js when js/dev-boot.js ran, which
 // sandboxes localStorage, so nothing done here touches the real profile. Console API: window.cbDev.
 // Cards come from the game's own registry (upgrades.js) at runtime, so new cards show up automatically.
-import { RULES } from './rules.js?v=1.34.0-dev.22596d5-volkar-test2';
-import { isBossWave } from './waves.js?v=1.34.0-dev.22596d5-volkar-test2';
-import { arenaForWave } from './arena.js?v=1.34.0-dev.22596d5-volkar-test2';
-import { UPGRADES, CURSES, BOSS_CARDS, EVOLUTIONS, MYTHICS, PICK_EVERY, cardForHero } from './upgrades.js?v=1.34.0-dev.22596d5-volkar-test2';
-import { MASTERIES } from './mastery.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { RULES } from './rules.js?v=1.34.0-dev.7658525-volkar-test3';
+import { isBossWave } from './waves.js?v=1.34.0-dev.7658525-volkar-test3';
+import { arenaForWave } from './arena.js?v=1.34.0-dev.7658525-volkar-test3';
+import { UPGRADES, CURSES, BOSS_CARDS, EVOLUTIONS, MYTHICS, PICK_EVERY, cardForHero } from './upgrades.js?v=1.34.0-dev.7658525-volkar-test3';
+import { MASTERIES } from './mastery.js?v=1.34.0-dev.7658525-volkar-test3';
 
 const HEROES = [['sarrow', 'Sarrow'], ['zaleks', 'Zaleks'], ['iskra', 'Iskra'], ['orin', 'Orin'], ['ninja', 'Kagero'], ['axiom', 'Axiom'], ['thane', 'Volkar']];
 const ARENAS = [['slag', 'Slag Yard', 0, true], ['foundry', 'Foundry (lava)', 1, false], ['tundra', 'Tundra (ice)', 2, false], ['cathedral', 'Cathedral', 3, true], ['rooftop', 'Rooftop', 4, true]]; // [id, label, index, Containment Shift layout]
@@ -105,7 +105,7 @@ export function install(c) {
     // ---- VOLKAR (Phase 6 test) shortcuts ----
     volkar(full = true) { api.start('thane'); setTimeout(() => { if (full) api.storm(); }, 400); return 'Volkar' + (full ? ' + full Storm meter' : ''); },
     storm() { need(); const p = c.player; if (!p.vk) throw new Error('not Volkar'); p.vk.lockT = 0; p.vk.meter = p.char.meter.max; return say('Storm meter FULL (press ULTIMATE)'); },
-    charge() { need(); const p = c.player; if (!p.vk) throw new Error('not Volkar'); p.vk.charge = 10 - (p.stats.tCharge || 0); return say('Charge FULL (next swing = Ground Discharge)'); },
+    charge() { need(); const p = c.player; if (!p.vk) throw new Error('not Volkar'); p.vk.charge = Math.max(p.char.charge.minMax || 1, p.char.charge.max - (p.stats.tCharge || 0)); return say('Charge FULL (next swing = Ground Discharge)'); },
     volkarCards() { need(); for (const e of REG) if (e.heroes && e.heroes.includes('thane')) setLv(e.id, e.max); refresh(); return say('all Volkar cards at max'); },
     shockAll() { need(); const t = performance.now() / 1000 + 3; let n = 0; for (const e of c.enemies.list) if (e.canBeHit) { e.vShockUntil = t; n++; } return say(n + ' enemies Shocked'); },
     god(on = !god) { god = on; return god; },

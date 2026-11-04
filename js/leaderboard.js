@@ -10,9 +10,9 @@
 //    could earn, waves need a minimum time, rush times need a minimum per boss, daily/weekly boards
 //    only accept today's / this week's runs, one submission per 15 s per player). Runs where a
 //    local test helper was used never submit online.
-import { LEADERBOARD_CONFIG as CFG } from './leaderboard-config.js?v=1.34.0-dev.22596d5-volkar-test2';
-import { checkName } from './names.js?v=1.34.0-dev.22596d5-volkar-test2';
-import { GAME_VERSION } from './version.js?v=1.34.0-dev.22596d5-volkar-test2';
+import { LEADERBOARD_CONFIG as CFG } from './leaderboard-config.js?v=1.34.0-dev.7658525-volkar-test3';
+import { checkName } from './names.js?v=1.34.0-dev.7658525-volkar-test3';
+import { GAME_VERSION } from './version.js?v=1.34.0-dev.7658525-volkar-test3';
 
 const LOCAL_KEY = 'coreburn-boards';
 const ID_KEY = 'coreburn-player-id';
