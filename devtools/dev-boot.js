@@ -20,6 +20,7 @@
     key: function (i) { return keys()[i] ?? null; },
     get length() { return keys().length; },
   };
+  window.__CB_DEV_UNLOCK = ['thane']; // Phase 6 test build: Volkar selectable right away (the real unlock rule stays in unlocks.js)
   Object.defineProperty(window, 'localStorage', { value: box, configurable: true });
   window.__CB_DEV = { sandbox: true, resetSandbox: function () { keys().forEach(function (k) { ss.removeItem(P + k); }); ss.removeItem(P + '__seeded'); location.reload(); } };
   // visible DEV BUILD badge (bottom-left, out of the HUD's way, tap-through)
