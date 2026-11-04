@@ -105,7 +105,7 @@ export function install(c) {
     // ---- VOLKAR (Phase 6 test) shortcuts ----
     volkar(full = true) { api.start('thane'); setTimeout(() => { if (full) api.storm(); }, 400); return 'Volkar' + (full ? ' + full Storm meter' : ''); },
     storm() { need(); const p = c.player; if (!p.vk) throw new Error('not Volkar'); p.vk.lockT = 0; p.vk.meter = p.char.meter.max; return say('Storm meter FULL (press ULTIMATE)'); },
-    charge() { need(); const p = c.player; if (!p.vk) throw new Error('not Volkar'); p.vk.charge = 10 - (p.stats.tCharge || 0); return say('Charge FULL (next swing = Ground Discharge)'); },
+    charge() { need(); const p = c.player; if (!p.vk) throw new Error('not Volkar'); p.vk.charge = Math.max(p.char.charge.minMax || 1, p.char.charge.max - (p.stats.tCharge || 0)); return say('Charge FULL (next swing = Ground Discharge)'); },
     volkarCards() { need(); for (const e of REG) if (e.heroes && e.heroes.includes('thane')) setLv(e.id, e.max); refresh(); return say('all Volkar cards at max'); },
     shockAll() { need(); const t = performance.now() / 1000 + 3; let n = 0; for (const e of c.enemies.list) if (e.canBeHit) { e.vShockUntil = t; n++; } return say(n + ' enemies Shocked'); },
     god(on = !god) { god = on; return god; },
