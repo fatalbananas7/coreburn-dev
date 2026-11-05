@@ -106,7 +106,9 @@ export function install(c) {
     volkar(full = true) { api.start('thane'); setTimeout(() => { if (full) api.storm(); }, 400); return 'Volkar' + (full ? ' + full Storm meter' : ''); },
     storm() { need(); const p = c.player; if (!p.vk) throw new Error('not Volkar'); p.vk.lockT = 0; p.vk.meter = p.char.meter.max; return say('Storm meter FULL (press ULTIMATE)'); },
     charge() { need(); const p = c.player; if (!p.vk) throw new Error('not Volkar'); p.vk.charge = Math.max(p.char.charge.minMax || 1, p.char.charge.max - (p.stats.tCharge || 0)); return say('Charge FULL (next swing = Ground Discharge)'); },
-    volkarCards() { need(); for (const e of REG) if (e.heroes && e.heroes.includes('thane')) setLv(e.id, e.max); refresh(); return say('all Volkar cards at max'); },
+    volkarCards() { need(); for (const e of REG) if (e.cat === 'upgrade' && e.heroes && e.heroes.includes('thane')) setLv(e.id, e.max); refresh(); return say('all Volkar cards at max'); },
+    volkarEvo() { need(); setLv('tSkyChain', 2); setLv('tSkyCount', 2); setLv('eSkysunder', 1); refresh(); return say('Skysunder Volley (evolution) ON'); },
+    volkarMythic() { need(); setLv('myVkSquall', 1); refresh(); const p = c.player; if (p.vk) { p.vk.dischargeN = 3; api.charge(); } return say('Brewing Squall (Mythic) ON - next Ground Discharge brings the cloud'); },
     shockAll() { need(); const t = performance.now() / 1000 + 3; let n = 0; for (const e of c.enemies.list) if (e.canBeHit) { e.vShockUntil = t; n++; } return say(n + ' enemies Shocked'); },
     god(on = !god) { god = on; return god; },
     heal() { need(); c.player.hp = c.player.maxHp; },
@@ -139,7 +141,7 @@ export function install(c) {
   const hd = el('div', { class: 'hd' }); const x = el('button', { id: 'cbdev-close' }, '✕ CLOSE'); x.onclick = () => pan.classList.add('hidden');
   hd.append(el('span', {}, 'DEV TOOLS — sandboxed, not saved'), x); pan.append(hd, msg);
   pan.append(el('h4', {}, 'START RUN (CoreBurnZ, locks bypassed)'), row(HEROES.map(([id, n]) => [n, () => api.start(id)])));
-  pan.append(el('h4', {}, 'VOLKAR (Phase 6 test)'), row([['Start Volkar + full Storm', () => api.volkar(true)], ['Full Storm meter', () => api.storm()], ['Full Charge', () => api.charge()], ['MAX Volkar cards', () => api.volkarCards()], ['Shock all', () => api.shockAll()]]));
+  pan.append(el('h4', {}, 'VOLKAR (Phase 6 test)'), row([['Start Volkar + full Storm', () => api.volkar(true)], ['Full Storm meter', () => api.storm()], ['Full Charge', () => api.charge()], ['MAX Volkar cards', () => api.volkarCards()], ['Shock all', () => api.shockAll()], ['Evolution: Skysunder', () => api.volkarEvo()], ['Mythic: Brewing Squall', () => api.volkarMythic()]]));
   pan.append(el('h4', {}, 'BUILD PRESETS'), row([['MAX all cards (this hero)', () => api.maxAll()], ['Remove all cards', () => api.clearCards()], ['Open card pick', () => api.pick()]]));
   pan.append(el('div', { class: 'cnt' }, 'Realistic late-game build (picks/relics/tier/masteries a real run has by then) + jump:'), row([35, 50, 60, 75].map((w) => ['Real W' + w, () => api.realistic(w), 'real' + w])));
   pan.append(el('h4', {}, 'JUMP TO WAVE (keeps your cards)'), row([1, 10, 20, 35, 50, 60, 75].map((w) => ['W' + w, () => 'wave ' + api.wave(w)]).concat([['Next boss', () => 'wave ' + api.boss()], ['Nail Chorus (60)', () => 'wave ' + api.boss(60)]])));
