@@ -12,22 +12,23 @@
 // Rules: enemies get more numerous and tougher per player, bosses switch targets every few seconds,
 // a downed hero is revived by a teammate standing next to them for 3 seconds, and the run ends when
 // everyone is down. Score and combo are shared; upgrade picks and power-ups are per player.
-import { disposeModel } from './hero-models.js?v=1.34.0-dev.7658525-volkar-test3';
-import { applyAffixVisuals } from './affixes.js?v=1.34.0-dev.7658525-volkar-test3';
-import { cleanMastery } from './mastery.js?v=1.34.0-dev.7658525-volkar-test3';
-import { synergiesFor, showSynergyPopup } from './synergy.js?v=1.34.0-dev.7658525-volkar-test3';
+import { disposeModel } from './hero-models.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { applyAffixVisuals } from './affixes.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { cleanMastery } from './mastery.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { synergiesFor, showSynergyPopup } from './synergy.js?v=1.34.0-dev.792c8a1-volkar-test4';
 import * as THREE from 'three';
-import { NetHost, NetClient, normalizeCode, MAX_PLAYERS } from './net.js?v=1.34.0-dev.7658525-volkar-test3';
-import { Player } from './player.js?v=1.34.0-dev.7658525-volkar-test3';
-import { Enemy } from './enemy.js?v=1.34.0-dev.7658525-volkar-test3';
-import { bossForNumber } from './bosses.js?v=1.34.0-dev.7658525-volkar-test3';
-import { RULES, setRules } from './rules.js?v=1.34.0-dev.7658525-volkar-test3';
-import { makeGolden } from './golden.js?v=1.34.0-dev.7658525-volkar-test3';
-import { meta } from './meta.js?v=1.34.0-dev.7658525-volkar-test3';
-import { waveStats } from './waves.js?v=1.34.0-dev.7658525-volkar-test3';
-import { CHARACTERS, ALL_HEROES, DUPLICATE_TINTS, displayName } from './characters.js?v=1.34.0-dev.7658525-volkar-test3';
-import { GAME_VERSION } from './version.js?v=1.34.0-dev.7658525-volkar-test3';
-import { cleanLook } from './progress.js?v=1.34.0-dev.7658525-volkar-test3';
+import { NetHost, NetClient, normalizeCode, MAX_PLAYERS } from './net.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { Player } from './player.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { Enemy } from './enemy.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { bossForNumber } from './bosses.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { RULES, setRules } from './rules.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { makeGolden } from './golden.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { meta } from './meta.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { waveStats } from './waves.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { CHARACTERS, ALL_HEROES, DUPLICATE_TINTS, displayName } from './characters.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { GAME_VERSION } from './version.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { cleanLook } from './progress.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { setVolkarRecorder, vfxReplay } from './volkar.js?v=1.34.0-dev.792c8a1-volkar-test4'; // Phase 6 TEST: Volkar VFX for friends
 
 const SNAP_RATE = 15;   // host -> friends, per second
 const INPUT_RATE = 20;  // friend -> host, per second
@@ -377,6 +378,7 @@ export class Coop {
       const orig = effects[name].bind(effects);
       effects[name] = (...args) => { if (name !== 'spawnSparks' || this.fx.length < 80) rec(['fx', name, ...args.map(ser)]); return orig(...args); };
     }
+    setVolkarRecorder((op, a) => rec(['vk', op, ...a.map(ser)]));
     const sfx = world.sfx;
     world.sfx = (n, o) => { rec(['snd', n, o]); sfx(n, o); };
     const shake = world.shake;
@@ -857,6 +859,7 @@ export class Coop {
         case 'shk': world.shake(ev[1] * 0.7); break;
         case 'ban': hud.showBanner(ev[1], ev[2], ev[3]); hud.setMutator(/^MUTATOR/.test(ev[1]) ? { name: ev[1].slice(9), color: ev[3] } : (/CLEARED|BOSS/.test(ev[1]) ? null : undefined)); break;
         case 'bolt': this.ctx.arena.strikeVisual(deser(ev[1])); break;
+        case 'vk': vfxReplay(this.ctx.scene, ev[1], ev.slice(2).map(deser)); break;
         case 'cmb': this.comboView.events.push(...ev[1]); break;
       }
     } catch { /* a missing effect is never worth crashing over */ }

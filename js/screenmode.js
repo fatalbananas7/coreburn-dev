@@ -1,5 +1,5 @@
 // fullscreen.js (v1.29.1): small fullscreen toggle on the menu, pause menu and MORE section.
-import { IS_NATIVE } from './native.js?v=1.34.0-dev.7658525-volkar-test3';
+import { IS_NATIVE } from './native.js?v=1.34.0-dev.792c8a1-volkar-test4';
 
 const d = document, el = d.documentElement;
 const fsEl = () => d.fullscreenElement || d.webkitFullscreenElement || null;

@@ -6,15 +6,15 @@
 //   ISKRA   auto-aimed needles / Phase Hop (2 charges, decoy) / Needle Storm (fan barrage)
 //   ORIN    chaining arc tether/ Magnet Grapple (yank / pull) / Hymn Engine (vortex + drones)
 // Also: core recharge (regen), weapon tier + upgrade cards (upgrades.js), power-ups (powerups.js).
-import { disposeModel } from './hero-models.js?v=1.34.0-dev.7658525-volkar-test3';
+import { disposeModel } from './hero-models.js?v=1.34.0-dev.792c8a1-volkar-test4';
 import * as THREE from 'three';
-import { decorateSkin } from './cosmetics.js?v=1.34.0-dev.7658525-volkar-test3';
-import { RULES, zHero } from './rules.js?v=1.34.0-dev.7658525-volkar-test3';
-import { Loadout, tierColor } from './upgrades.js?v=1.34.0-dev.7658525-volkar-test3';
-import { CHARACTERS } from './characters.js?v=1.34.0-dev.7658525-volkar-test3';
-import { KIT } from './allies.js?v=1.34.0-dev.7658525-volkar-test3';
-import * as P5 from './phase5.js?v=1.34.0-dev.7658525-volkar-test3'; // CoreBurnZ Phase 5A/5B
-import * as V from './volkar.js?v=1.34.0-dev.7658525-volkar-test3'; // Phase 6 TEST: VOLKAR kit
+import { decorateSkin } from './cosmetics.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { RULES, zHero } from './rules.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { Loadout, tierColor } from './upgrades.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { CHARACTERS } from './characters.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { KIT } from './allies.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import * as P5 from './phase5.js?v=1.34.0-dev.792c8a1-volkar-test4'; // CoreBurnZ Phase 5A/5B
+import * as V from './volkar.js?v=1.34.0-dev.792c8a1-volkar-test4'; // Phase 6 TEST: VOLKAR kit
 
 // The camera looks at the arena from the +X/+Z corner. These are the floor directions
 // that match "up the screen" and "right on the screen", so W always moves up the screen.
