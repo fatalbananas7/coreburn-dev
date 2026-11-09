@@ -6,15 +6,15 @@
 //   ISKRA   auto-aimed needles / Phase Hop (2 charges, decoy) / Needle Storm (fan barrage)
 //   ORIN    chaining arc tether/ Magnet Grapple (yank / pull) / Hymn Engine (vortex + drones)
 // Also: core recharge (regen), weapon tier + upgrade cards (upgrades.js), power-ups (powerups.js).
-import { disposeModel } from './hero-models.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { disposeModel } from './hero-models.js?v=1.34.0-dev.73db199-volkar-test5';
 import * as THREE from 'three';
-import { decorateSkin } from './cosmetics.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { RULES, zHero } from './rules.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { Loadout, tierColor } from './upgrades.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { CHARACTERS } from './characters.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { KIT } from './allies.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import * as P5 from './phase5.js?v=1.34.0-dev.792c8a1-volkar-test4'; // CoreBurnZ Phase 5A/5B
-import * as V from './volkar.js?v=1.34.0-dev.792c8a1-volkar-test4'; // Phase 6 TEST: VOLKAR kit
+import { decorateSkin } from './cosmetics.js?v=1.34.0-dev.73db199-volkar-test5';
+import { RULES, zHero } from './rules.js?v=1.34.0-dev.73db199-volkar-test5';
+import { Loadout, tierColor } from './upgrades.js?v=1.34.0-dev.73db199-volkar-test5';
+import { CHARACTERS } from './characters.js?v=1.34.0-dev.73db199-volkar-test5';
+import { KIT } from './allies.js?v=1.34.0-dev.73db199-volkar-test5';
+import * as P5 from './phase5.js?v=1.34.0-dev.73db199-volkar-test5'; // CoreBurnZ Phase 5A/5B
+import * as V from './volkar.js?v=1.34.0-dev.73db199-volkar-test5'; // Phase 6 TEST: VOLKAR kit
 
 // The camera looks at the arena from the +X/+Z corner. These are the floor directions
 // that match "up the screen" and "right on the screen", so W always moves up the screen.
@@ -582,7 +582,7 @@ export class Player {
       const thane = this.kit === 'thane', dmg = hit.damage * (zal ? s.bashDmg : s.arcDmg) * (thane ? V.swingMult(this) : 1);
       this.strike(e, dmg, to.x * knock, to.z * knock, fin, 'slash');
       this.world.effects.spawnSparks(e.position.clone().setY(1.1), thane ? (fin ? 0xe8fbff : 0x6ae4ff) : fin ? 0xffa040 : (zal ? 0xffd090 : 0x9ffff5), fin ? 12 : 6);
-      if (thane) { V.onMaulHit(this, e, dmg, struck); V.killMeter(this, e); }
+      if (thane) { V.onMaulHit(this, e, dmg, struck); V.killMeter(this, e); V.tagShatter(e); }
       struck.add(e);
       hitSomething = true;
       if (RULES.z && !zal && this.kit === 'sarrow') this.world.allies?.addBleed(this, e, fin ? 2 : 1); // CoreBurnZ BLEED
@@ -592,7 +592,7 @@ export class Player {
       for (const e of V.slamTargets(this, forward, struck)) {
         const to = new THREE.Vector3().subVectors(e.position, this.position).setY(0).normalize();
         this.strike(e, dmg, to.x * knock, to.z * knock, fin, 'slash');
-        V.onMaulHit(this, e, dmg, struck); V.killMeter(this, e); struck.add(e);
+        V.onMaulHit(this, e, dmg, struck); V.killMeter(this, e); V.tagShatter(e); struck.add(e);
       }
       V.afterSwing(this, forward, struck);
     }

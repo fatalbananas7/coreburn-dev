@@ -3,10 +3,10 @@
 // model + Wardrobe the game uses, drag / touch rotation, and TRY-ON: preview an item without equipping it.
 // Nothing here writes to a save; dropping a try-on simply redresses with what's really equipped.
 import * as THREE from 'three';
-import { CHARACTERS } from './characters.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { Wardrobe } from './cosmetics.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { disposeModel } from './hero-models.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { COSMETICS } from './progress.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { CHARACTERS } from './characters.js?v=1.34.0-dev.73db199-volkar-test5';
+import { Wardrobe } from './cosmetics.js?v=1.34.0-dev.73db199-volkar-test5';
+import { disposeModel } from './hero-models.js?v=1.34.0-dev.73db199-volkar-test5';
+import { COSMETICS } from './progress.js?v=1.34.0-dev.73db199-volkar-test5';
 
 export class HeroPreview {
   constructor(progress, meta) {

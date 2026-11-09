@@ -8,7 +8,7 @@
 //   summon - calls spitters and acolytes
 // It's big and slow: get in close and hit it between attacks.
 import * as THREE from 'three';
-import { Boss } from './boss.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { Boss } from './boss.js?v=1.34.0-dev.73db199-volkar-test5';
 
 const BEAM_LEN = 17;
 const BEAM_GEO = new THREE.BoxGeometry(1, 1, 1);

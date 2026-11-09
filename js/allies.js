@@ -7,10 +7,10 @@
 // Solo and co-op host: simulated here and every hit goes through the owner hero's strike().
 // Co-op friends: never simulate; they draw what the host's snapshot says (serialize / applySnapshot).
 import * as THREE from 'three';
-import { CHARACTERS } from './characters.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { AxiomSwarm } from './axiom.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { RULES } from './rules.js?v=1.34.0-dev.792c8a1-volkar-test4';
-import { p5CloneTarget } from './phase5.js?v=1.34.0-dev.792c8a1-volkar-test4';
+import { CHARACTERS } from './characters.js?v=1.34.0-dev.73db199-volkar-test5';
+import { AxiomSwarm } from './axiom.js?v=1.34.0-dev.73db199-volkar-test5';
+import { RULES } from './rules.js?v=1.34.0-dev.73db199-volkar-test5';
+import { p5CloneTarget } from './phase5.js?v=1.34.0-dev.73db199-volkar-test5';
 
 // Returning Edge: stuck 2s, fly home, orbit 2s (hit each enemy at most every 0.45s for 30% of the return hit)
 const RET_TIME = 2.0, ORBIT_TIME = 2.0, ORBIT_R = 1.7, ORBIT_HIT_CD = 0.45, ORBIT_DMG = 0.3, REFUND_CAP = 0.5;
