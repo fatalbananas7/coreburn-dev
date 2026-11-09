@@ -3,9 +3,9 @@
 // acid-green visors. This file defines every regular enemy type, how they look,
 // and how they behave. (Bosses live in boss.js, waves in waves.js.)
 import * as THREE from 'three';
-import { affixDamage } from './affixes.js?v=1.34.0-dev.9803368-volkar-test6';
-import { buildEnemyModel, coreMat, GLOW } from './enemy-models.js?v=1.34.0-dev.9803368-volkar-test6';
-import { sound } from './audio.js?v=1.34.0-dev.9803368-volkar-test6';
+import { affixDamage } from './affixes.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { buildEnemyModel, coreMat, GLOW } from './enemy-models.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { sound } from './audio.js?v=1.34.0-dev.dfe364d-volkar-test7';
 
 // Every enemy type. Numbers here are for wave 1; waves.js multiplies them as waves climb.
 //   ai: 'melee'  = walk up, raise fists, swing

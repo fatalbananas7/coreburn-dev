@@ -35,7 +35,7 @@ export class Twitch {
     if (!ch) return;
     this.status = 'connecting'; this.renderChip();
     try {
-      const { default: tmi } = await import('./vendor/tmi.esm.js?v=1.34.0-dev.9803368-volkar-test6'); // only loaded when Streamer Mode is on
+      const { default: tmi } = await import('./vendor/tmi.esm.js?v=1.34.0-dev.dfe364d-volkar-test7'); // only loaded when Streamer Mode is on
       const client = this.client = new tmi.Client({ channels: [ch], connection: { reconnect: true, secure: true } });
       client.on('message', (_c, tags, msg, self) => { if (!self) this.onChat(tags, msg); });
       client.on('connected', () => { this.status = 'live'; this.renderChip(); });

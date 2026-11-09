@@ -3,13 +3,13 @@
 // the boss health bar, banners like "WAVE 2", the red damage flash, the active
 // power-ups (with timers), and the title / game over screens.
 
-import { MASTERIES, masteryPoints, spentOn, getMastery, openMasteryPanel } from './mastery.js?v=1.34.0-dev.9803368-volkar-test6';
-import { UPGRADES, FALLBACK, GROUP_LABELS, groupLabel, weaponMult, tierColor } from './upgrades.js?v=1.34.0-dev.9803368-volkar-test6';
-import { HERO_STATS } from './hero-stats.js?v=1.34.0-dev.9803368-volkar-test6';
-import { sound } from './audio.js?v=1.34.0-dev.9803368-volkar-test6';
-import { RULES, Z_TUNING } from './rules.js?v=1.34.0-dev.9803368-volkar-test6';
+import { MASTERIES, masteryPoints, spentOn, getMastery, openMasteryPanel } from './mastery.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { UPGRADES, FALLBACK, GROUP_LABELS, groupLabel, weaponMult, tierColor } from './upgrades.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { HERO_STATS } from './hero-stats.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { sound } from './audio.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { RULES, Z_TUNING } from './rules.js?v=1.34.0-dev.dfe364d-volkar-test7';
 const zab = (x) => (RULES.z && x.z ? { ...x, ...x.z } : x); // CoreBurnZ ability overrides (Orin's Gravity Well)
-import { xpNeeded, heroReward } from './progress.js?v=1.34.0-dev.9803368-volkar-test6';
+import { xpNeeded, heroReward } from './progress.js?v=1.34.0-dev.dfe364d-volkar-test7';
 
 const $ = (id) => document.getElementById(id);
 const formatSecs = (sec) => { const m = Math.floor(sec / 60), s = sec - m * 60; return `${m}:${s.toFixed(1).padStart(4, '0')}`; };

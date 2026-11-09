@@ -5,7 +5,7 @@
 //   * rare drops (golden bosses) and later achievements / unlocks
 // Nothing here is needed to play: the shop is purely optional extras.
 
-import { defaultStats } from './achievements.js?v=1.34.0-dev.9803368-volkar-test6';
+import { defaultStats } from './achievements.js?v=1.34.0-dev.dfe364d-volkar-test7';
 
 const KEY = 'coreburn-save';
 

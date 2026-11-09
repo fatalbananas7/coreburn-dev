@@ -7,9 +7,9 @@
 // Purely visual: never touches position, radius, hp, timers or anything the host syncs, never calls
 // Math.random on the boss build/update path, and only uses the unrecorded local effects + local sound.
 import * as THREE from 'three';
-import { sound } from './audio.js?v=1.34.0-dev.9803368-volkar-test6';
-import { rebuildBoss, tickRig, unrig } from './boss-rigs.js?v=1.34.0-dev.9803368-volkar-test6';
-import { DESIGNS } from './boss-designs.js?v=1.34.0-dev.9803368-volkar-test6';
+import { sound } from './audio.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { rebuildBoss, tickRig, unrig } from './boss-rigs.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { DESIGNS } from './boss-designs.js?v=1.34.0-dev.dfe364d-volkar-test7';
 
 const PI = Math.PI;
 const UNIT = new THREE.BoxGeometry(1, 1, 1);

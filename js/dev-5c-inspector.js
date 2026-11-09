@@ -3,9 +3,9 @@
 // Android app. Excluded from the production build (scripts/build-web.mjs skips js/dev-*.js); the game
 // boots normally without it. Storage is the dev-boot sandbox, so nothing here can touch the real profile.
 import * as THREE from 'three';
-import { ENEMY_TYPES, setEnemyLOD } from './enemy.js?v=1.34.0-dev.9803368-volkar-test6';
-import { AFFIXES, applyAffixStats } from './affixes.js?v=1.34.0-dev.9803368-volkar-test6';
-import { rotation } from './bosses.js?v=1.34.0-dev.9803368-volkar-test6';
+import { ENEMY_TYPES, setEnemyLOD } from './enemy.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { AFFIXES, applyAffixStats } from './affixes.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { rotation } from './bosses.js?v=1.34.0-dev.dfe364d-volkar-test7';
 
 export function install(ctx) {
   const { enemies, player, startGame, getState } = ctx;

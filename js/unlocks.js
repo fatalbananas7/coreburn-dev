@@ -8,9 +8,9 @@
 // EXISTING PROFILES are grandfathered: before v1.31 Iskra and Kagero were free for everyone, so any profile that
 // has played (runs, kills, scrap, purchases, milestones, account level > 1 or a best score) keeps them.
 // The migration only ever ADDS unlock flags, runs once (meta.data.unlockV) and never resets anything.
-import { meta } from './meta.js?v=1.34.0-dev.9803368-volkar-test6';
-import { Z_ROTATION } from './bosses.js?v=1.34.0-dev.9803368-volkar-test6';
-import { HERO_STATS } from './hero-stats.js?v=1.34.0-dev.9803368-volkar-test6';
+import { meta } from './meta.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { Z_ROTATION } from './bosses.js?v=1.34.0-dev.dfe364d-volkar-test7';
+import { HERO_STATS } from './hero-stats.js?v=1.34.0-dev.dfe364d-volkar-test7';
 
 export const Z_BOSS_NAMES = [...new Set(Z_ROTATION.map((e) => e.def.name))];
 export const zBossCount = () => Z_BOSS_NAMES.filter((n) => (meta.data.stats.zBosses || []).includes(n)).length;
