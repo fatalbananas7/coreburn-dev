@@ -3,7 +3,7 @@
 // as a second pass over the arena. Its tiny scene has no shadow-casting lights.
 // Nothing here runs or stays in memory-heavy form outside hero select: hide() drops the model.
 import * as THREE from 'three';
-import { disposeModel } from './hero-models.js?v=1.34.0-dev.73db199-volkar-test5';
+import { disposeModel } from './hero-models.js?v=1.34.0-dev.9803368-volkar-test6';
 
 function glowTexture() {
   const c = document.createElement('canvas'); c.width = c.height = 128;

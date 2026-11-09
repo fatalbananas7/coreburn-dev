@@ -1,9 +1,9 @@
 // ranks-ui.js
 // The RANKS panel (title screen): GLOBAL, per HERO, DAILY (today) and BOSS RUSH (this week).
 // Shows the online top 20 when online leaderboards are set up, otherwise your best runs on this device.
-import { CHARACTERS, heroOrder } from './characters.js?v=1.34.0-dev.73db199-volkar-test5';
-import { dailyKey, weekKey } from './modes.js?v=1.34.0-dev.73db199-volkar-test5';
-import { RULES } from './rules.js?v=1.34.0-dev.73db199-volkar-test5';
+import { CHARACTERS, heroOrder } from './characters.js?v=1.34.0-dev.9803368-volkar-test6';
+import { dailyKey, weekKey } from './modes.js?v=1.34.0-dev.9803368-volkar-test6';
+import { RULES } from './rules.js?v=1.34.0-dev.9803368-volkar-test6';
 const $ = (id) => document.getElementById(id);
 const TABS = [['global', 'GLOBAL'], ['hero', 'HEROES'], ['daily', 'DAILY'], ['rush', 'BOSS RUSH']];
 
